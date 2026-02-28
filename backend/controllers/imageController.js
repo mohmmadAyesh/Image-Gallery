@@ -1,4 +1,6 @@
 const {uploadImageToS3,createPresignedUrlWithClient}  = require('../services/aws_functions');
+const { promisify } = require('util');
+const unlinkAsync = promisify(require('fs').unlink);
 const uploadImage = async (req, res) => {
     try {
         console.log("hey you i am right here ");
@@ -10,6 +12,7 @@ const uploadImage = async (req, res) => {
         const query = 'INSERT INTO images (file_name,upload_date,image_s3_url) VALUES ($1, $2, $3) RETURNING *';
         const values = [file.filename, upload_date, image_s3_url];      
         const result = await req.pool.query(query, values);
+        await unlinkAsync(req.file.path);
         res.status(201).json(result.rows[0]);
     } catch (error) {
         console.error('Error uploading image:', error);
