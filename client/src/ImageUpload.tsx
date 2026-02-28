@@ -4,18 +4,28 @@ interface ImageUploadProps {
     handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     errorMessage: string | null;
     uploadedImage?: string | null;
-    handleSave: () => void;
+    handleSave: (e: React.FormEvent) => void;
     successMessage?: string | null;
 }
 export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, handleSave, successMessage}: ImageUploadProps) => {
     const [showPreview, setShowPreview] = useState(false);
     const [loading, setLoading] = useState(false);
     return (
-    <form onSubmit={(e: React.FormEvent) => {
+    <form onSubmit={async (e: React.FormEvent) => {
+        
+        try{
         setLoading(true);
-        handleSave(e);
+        await handleSave(e);
         setLoading(false);
-        }}>
+        }catch(error){
+            console.log("Error in handleSave:", error);
+            setLoading(false);        
+        }
+        finally{
+            setLoading(false);
+        }
+    }
+    }>
     <div className="image-uploader">
         <div className="image-description">
             <div className='image-container'>
@@ -41,7 +51,7 @@ export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, hand
             </div>
         </div>
         <div className="button-container">
-            <button type="submit" disabled={!uploadedImage || loading} className={`${!uploadedImage ? 'gray-button' : 'green-button'}`}>
+            <button type="submit" disabled={!uploadedImage || loading} className={`${(!uploadedImage || loading) ? 'gray-button' : 'green-button'}`}>
                 { !loading ? "Save" : (
                     <>
                     <div className="loader"></div>
