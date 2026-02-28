@@ -1,4 +1,5 @@
 const { Pool } = require('pg');
+const express = require('express');
 express.pool = new Pool({
     user: process.env.DBUSER || 'postgres',
     host: process.env.DBHOST || 'localhost',
@@ -8,5 +9,7 @@ express.pool = new Pool({
 })
 exports.PostgresSQL = (req,res,next) => {
     req.pool = express.pool;
+    console.log('PostgreSQL connection established');
+    console.log('Database:', process.env.DBNAME);
     next();
 }
