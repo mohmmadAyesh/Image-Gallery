@@ -13,7 +13,7 @@ const router = express.Router();
 const { PostgresSQL } = require('../db/db');
 const { uploadImage, getAllImages } = require('../controllers/imageController');
 
-router.post('/upload',uploads.single('image'), PostgresSQL, uploadImage);
+router.post('/upload',uploads.single('file'), PostgresSQL, uploadImage);
 router.get('/images', PostgresSQL, getAllImages);
 
 module.exports = router;

@@ -5,7 +5,7 @@ import api from './api/axiosConfig';
 const MAX_FILE_SIZE  = 1000 * 1000 * 3;
 function App() {
   const [galleryItems,setGallaryItems] = useState<string[]>([]);
-  const [uploadedImage, setUploadedImage] = useState<string | null>(null);
+  const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [uploadedImageName, setUploadedImageName] = useState<string | null>(null);
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -16,24 +16,27 @@ function App() {
         setErrorMessage("File size exceeds 5MB limit");
         return;
       }
+      setUploadedImage(e.target.files[0]);
       setUploadedImageName(file.name);
+      console.log("printing file name to test if i send as a file",uploadedImage?.name)
       const reader = new FileReader()
       reader.onload = (event) => {
         const newImage = event.target?.result as string;
-        setUploadedImage(newImage);
         setGallaryItems(prevItems => [...prevItems, newImage]);
       }
       reader.readAsDataURL(e.target.files[0])
     }
   }
-  const handleSave = async () => {
-    const date = new Date();
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const formData = new FormData();
+    formData.append('file', uploadedImage as Blob);
     try{
-      api.post('/upload',
+      api.post('/upload', formData,
       {
-        filename: uploadedImageName,
-        file: uploadedImage,
-        upload_date: date.toISOString()
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
       }
     );
   }catch(error){

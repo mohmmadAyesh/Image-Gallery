@@ -9,6 +9,7 @@ interface ImageUploadProps {
 export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, handleSave}: ImageUploadProps) => {
     const [showPreview, setShowPreview] = useState(false);
     return (
+    <form onSubmit={handleSave}>
     <div className="image-uploader">
         <div className="image-description">
             <div className='image-container'>
@@ -30,11 +31,11 @@ export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, hand
 
             <div className="info">
                 <h3>Please upload square image, size less than 100KB</h3>
-            <input type="file" accept="image/png, image/jpeg" onChange={handleImageChange}/>
+            <input type="file" name="image" accept="image/png, image/jpeg" onChange={handleImageChange}/>
             </div>
         </div>
         <div className="button-container">
-            <button onClick={handleSave}>Save</button>
+            <button type="submit">Save</button>
         </div>
         <p className="error-message">{errorMessage}</p>
         {showPreview && uploadedImage && ( 
@@ -46,6 +47,7 @@ export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, hand
         </div>
         )}
     </div>
+    </form>
      
   )
 }
