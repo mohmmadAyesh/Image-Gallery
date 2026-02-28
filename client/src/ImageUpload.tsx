@@ -8,8 +8,13 @@ interface ImageUploadProps {
 }
 export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, handleSave}: ImageUploadProps) => {
     const [showPreview, setShowPreview] = useState(false);
+    const [loading, setLoading] = useState(false);
     return (
-    <form onSubmit={handleSave}>
+    <form onSubmit={(e: React.FormEvent) => {
+        setLoading(true);
+        handleSave(e);
+        setLoading(false);
+        }}>
     <div className="image-uploader">
         <div className="image-description">
             <div className='image-container'>
@@ -35,7 +40,14 @@ export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, hand
             </div>
         </div>
         <div className="button-container">
-            <button type="submit">Save</button>
+            <button type="submit">
+                { !loading ? "Save" : (
+                    <>
+                    <div className="loader"></div>
+                    <span>Saving...</span>
+                    </>
+                )}
+                </button>
         </div>
         <p className="error-message">{errorMessage}</p>
         {showPreview && uploadedImage && ( 
