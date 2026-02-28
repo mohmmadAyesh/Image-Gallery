@@ -4,8 +4,9 @@ interface ImageUploadProps {
     handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     errorMessage: string | null;
     uploadedImage?: string | null;
+    handleSave: () => void;
 }
-export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage}: ImageUploadProps) => {
+export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, handleSave}: ImageUploadProps) => {
     const [showPreview, setShowPreview] = useState(false);
     return (
     <div className="image-uploader">
@@ -33,7 +34,7 @@ export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage}: Ima
             </div>
         </div>
         <div className="button-container">
-            <button>Save</button>
+            <button onClick={handleSave}>Save</button>
         </div>
         <p className="error-message">{errorMessage}</p>
         {showPreview && uploadedImage && ( 
