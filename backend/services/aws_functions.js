@@ -4,7 +4,7 @@ const {
   getSignedUrl,
 } = require("@aws-sdk/s3-request-presigner");
 const createReadStream = require('fs').createReadStream;
-const UploadImageToS3 = async (file) => {
+const uploadImageToS3 = async (file) => {
     try{
         console.log("Access Key ID:", process.env.AWS_ACCESS_KEY_ID);
         console.log("Secret Access Key:", process.env.AWS_SECRET_ACCESS_KEY);
@@ -59,4 +59,4 @@ const createPresignedUrlWithClient = async ({key}) => {
     const command = new GetObjectCommand({Bucket: `http://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`, Key: key});
     return getSignedUrl(s3, command);
 }
-module.exports = {UploadImageToS3, createPresignedUrlWithClient};
+module.exports = {uploadImageToS3, createPresignedUrlWithClient};

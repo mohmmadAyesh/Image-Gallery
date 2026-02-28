@@ -5,8 +5,9 @@ interface ImageUploadProps {
     errorMessage: string | null;
     uploadedImage?: string | null;
     handleSave: () => void;
+    successMessage?: string | null;
 }
-export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, handleSave}: ImageUploadProps) => {
+export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, handleSave, successMessage}: ImageUploadProps) => {
     const [showPreview, setShowPreview] = useState(false);
     const [loading, setLoading] = useState(false);
     return (
@@ -35,12 +36,12 @@ export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, hand
             
 
             <div className="info">
-                <h3>Please upload square image, size less than 100KB</h3>
+                <h3>Please upload square image, size less than 5MB</h3>
             <input type="file" name="image" accept="image/png, image/jpeg" onChange={handleImageChange}/>
             </div>
         </div>
         <div className="button-container">
-            <button type="submit">
+            <button type="submit" disabled={!uploadedImage || loading} className={`${!uploadedImage ? 'gray-button' : 'green-button'}`}>
                 { !loading ? "Save" : (
                     <>
                     <div className="loader"></div>
@@ -50,6 +51,7 @@ export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, hand
                 </button>
         </div>
         <p className="error-message">{errorMessage}</p>
+        <p className="success-message">{successMessage}</p>
         {showPreview && uploadedImage && ( 
             <div className="lightbox"  onClick={()=>setShowPreview(false)}>
         
