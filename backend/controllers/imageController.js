@@ -1,10 +1,15 @@
+const uploadImageToS3  = require('../services/uploadImages');
 const uploadImage = async (req, res) => {
     try {
+        console.log("hey you i am right here ");
         const { filename, upload_date } = req.body;
         const image_s3_url = "samer"
         const query = 'INSERT INTO images (file_name,upload_date,image_s3_url) VALUES ($1, $2, $3) RETURNING *';
         const values = [filename, upload_date, image_s3_url];
+       
         const result = await req.pool.query(query, values);
+        console.log("type of upload image", typeof uploadImageToS3);
+        uploadImageToS3(req.body.file, filename);
         res.status(201).json(result.rows[0]);
     } catch (error) {
         console.error('Error uploading image:', error);
