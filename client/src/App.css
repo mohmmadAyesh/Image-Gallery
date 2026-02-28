@@ -1,42 +1,71 @@
-#root {
-  max-width: 1280px;
-  margin: 0 auto;
-  padding: 2rem;
-  text-align: center;
+.image-uploader{
+  display:flex;
+  margin:auto;
+  padding: 20px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  background:white;
 }
-
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
+.image-description{
+  display: flex;
+  align-items: center;
+  gap: 20px;
 }
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
+.image-description h3{
+  color: #000;
+  font-family: Poppins;
+  font-size: 14px;
+  font-style: italic;
+  font-weight: 300;
+  line-height: 22px;
 }
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+.info{
+display: flex;
+flex-direction: column;
+align-items: flex-start;
+gap: 10px;
 }
-
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.info input{
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  gap: 30px;
+  align-self: stretch;
+  background:#f8fcff;
+ display:flex;
+ gap:10px;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
+.info input::file-selector-button{
+  font-size:16px;
+  font-weight:500;
+  line-height:22px;
+  color:#10B981;
+  padding: 10px 20px;
+  background:none;
+  border-radius:5px;
+  border: 1px solid #10B981;
+  margin-right:30px;
 }
-
-.card {
-  padding: 2em;
+.info input{
+  color:#3c3c3c;
+  cursor: pointer;
 }
-
-.read-the-docs {
-  color: #888;
+.button-container{
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-end;
+  width:100%;
+}
+.button-container button{
+  display: flex;
+  padding: 10px 20px;
+  background-color: #34d399;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight:300;
+  line-height:22px;
 }

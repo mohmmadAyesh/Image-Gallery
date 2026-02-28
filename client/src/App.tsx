@@ -1,15 +1,15 @@
 import './App.css'
 import { useState } from 'react'
-import { Lightbox } from './Lightbox'
 import { ImageUpload } from './ImageUpload'
 function App() {
-  const [selectedImage, setSelectedImage] = useState<string | null>(null)
+  const [galleryItems,setGallaryItems] = useState<string[]>([]);
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const reader = new FileReader()
       reader.onload = (event) => {
-        setSelectedImage(event.target?.result as string)
+        const newImage = event.target?.result as string;
+        setGallaryItems(prevItems => [...prevItems, newImage]);
       }
       reader.readAsDataURL(e.target.files[0])
     }
@@ -18,7 +18,7 @@ function App() {
   return (
     <>
      <ImageUpload handleImageChange={handleImageChange} />
-      {selectedImage && <Lightbox selectedImage={selectedImage} />}
+     
     </>
   )
 }
