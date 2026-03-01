@@ -1,29 +1,17 @@
 import './App.css'
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { ImageUpload } from './ImageUpload';
 import {api} from './api/ApiConfig';
-import { loadGalleryImages } from './api/accessImage';
+import { useContext } from 'react';
+import { GalleryContext } from './Context';
+import { Link } from 'react-router';
 const MAX_FILE_SIZE  = 1000 * 1000 * 3;
 function App() {
-  const [galleryItems,setGallaryItems] = useState<{file_name:string,presigned_url:string}[]>([]);
+  const {setGallaryItems} = useContext(GalleryContext);
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
-  useEffect(() => {
-    const fetch =  setTimeout(()=>{
-      const fetchGalleryImages = async () => {
-      try {
-        const images = await loadGalleryImages();
-        console.log("Fetched gallery images:", images);
-        setGallaryItems(images);
-      } catch (error) {
-        console.error('Error fetching gallery images:', error);
-      }
-  }
-  fetchGalleryImages();
-});
-  return () => clearTimeout(fetch);
-},[])
+ 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
@@ -60,19 +48,13 @@ function App() {
   }}
 
   return (
-    <>
-     <ImageUpload handleImageChange={handleImageChange} 
+      <>
+      <ImageUpload handleImageChange={handleImageChange} 
      errorMessage={errorMessage} 
      successMessage={successMessage}
      uploadedImage={uploadedImage} handleSave={handleSave} />
-     {galleryItems.length > 0 && (
-        <div className="gallery">
-          {galleryItems.map((image, index) => (
-            <img key={index} src={image.presigned_url} alt={`Gallery item ${index}`} className="gallery-image" />
-          ))}
-        </div>
-      )}
-    </>
+     <Link to="/gallary">Go to Gallary</Link>
+     </>
   )
 }
 
