@@ -1,41 +1,41 @@
-.image-uploader{
-  display:flex;
-  margin:auto;
+.image-uploader {
+  display: flex;
+  margin: auto;
   padding: 20px;
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-  background:white;
+  background: white;
 }
-.image-description{
+.image-description {
   display: flex;
   align-items: center;
   gap: 20px;
 }
-.image-description img{
-  height:100px;
-  width:100px;
+.image-description img {
+  height: 100px;
+  width: 100px;
   object-fit: cover;
-  border-radius:5px;
+  border-radius: 5px;
 }
-.image-container{
-    position:relative;
+.image-container {
+  position: relative;
 }
 
-.image-description .preview-button{
-  position:absolute;
+.image-description .preview-button {
+  position: absolute;
   top: 50%;
-  left:50%;
-  transform:translate(-50%,-50%);
-  padding:5px 10px;
-  background-color: rgba(0,0,0,0.6);
-  color:white;
-  border:none;
-  border-radius:3px;
-  font-size:12px;
-  cursor:pointer;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  padding: 5px 10px;
+  background-color: rgba(0, 0, 0, 0.6);
+  color: white;
+  border: none;
+  border-radius: 3px;
+  font-size: 12px;
+  cursor: pointer;
 }
-.image-description h3{
+.image-description h3 {
   color: #000;
   font-family: Poppins;
   font-size: 14px;
@@ -43,134 +43,139 @@
   font-weight: 300;
   line-height: 22px;
 }
-.info{
-display: flex;
-flex-direction: column;
-align-items: flex-start;
-gap: 10px;
+.info {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
 }
-.info input{
+.info input {
   display: flex;
   padding: 10px;
   align-items: center;
   gap: 30px;
   align-self: stretch;
-  background:#f8fcff;
- display:flex;
- gap:10px;
+  background: #f8fcff;
+  display: flex;
+  gap: 10px;
 }
-.info input::file-selector-button{
-  font-size:16px;
-  font-weight:500;
-  line-height:22px;
-  color:#10B981;
+.info input::file-selector-button {
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 22px;
+  color: #10b981;
   padding: 10px 20px;
-  background:none;
-  border-radius:5px;
-  border: 1px solid #10B981;
-  margin-right:30px;
+  background: none;
+  border-radius: 5px;
+  border: 1px solid #10b981;
+  margin-right: 30px;
 }
-.info input{
-  color:#3c3c3c;
+.info input {
+  color: #3c3c3c;
   cursor: pointer;
 }
-.button-container{
+.button-container {
   display: flex;
   align-items: center;
   flex-direction: row;
   justify-content: flex-end;
-  width:100%;
+  width: 100%;
 }
-.button-container button{
+.button-container button {
   display: flex;
   padding: 10px 20px;
   color: white;
   border: none;
   border-radius: 5px;
   cursor: pointer;
-  font-weight:300;
-  line-height:22px;
+  font-weight: 300;
+  line-height: 22px;
   align-items: center;
   justify-content: space-between;
-  gap:10px;
+  gap: 10px;
 }
-.button-container .gray-button{
+.button-container .gray-button {
   background-color: #9ca3af;
   cursor: not-allowed;
 }
-.button-container .green-button{
+.button-container .green-button {
   background-color: #34d399;
 }
-.error-message{
+.error-message {
   color: red;
   font-size: 14px;
   font-weight: 300;
 }
-.lightbox{
+.lightbox {
   position: fixed;
-  top:0;
-  left:0;
-  width:100%;
-  height:100%;
-  background-color: rgba(0,0,0,0.8);
-  display:flex;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  display: flex;
   align-items: center;
   justify-content: center;
 }
-.lightbox-image{
-  max-width:80vw;
-  max-height:80vh;
+.lightbox-image {
+  max-width: 80vw;
+  max-height: 80vh;
   object-fit: contain;
-  border-radius:5px;
+  border-radius: 5px;
 }
 .loader {
-  border: 2px solid #f3f3f3; 
-  border-top: 2px solid #333; 
+  border: 2px solid #f3f3f3;
+  border-top: 2px solid #333;
   border-radius: 50%;
   width: 12px;
   height: 12px;
   animation: spin 2s linear infinite;
 }
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
-.success-message{
+.success-message {
   color: #34d399;
   font-size: 14px;
   font-weight: 300;
 }
-.gallary-grid{
-  display:flex;
+.gallary-grid {
+  display: flex;
   align-items: center;
   flex-direction: column;
 }
-.gallary-grid{
-  display:grid;
-  padding:20px;
+.gallary-grid {
+  display: grid;
+  padding: 20px;
   grid-gap: 2rem;
   grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
 }
-.gallary-grid  .image-container{
-  width:auto;
-  height:200px;
-  overflow:hidden;
-  cursor:pointer;
-  border-radius:5px;
-  display:grid;
+.gallary-grid .image-container {
+  width: auto;
+  height: 200px;
+  overflow: hidden;
+  cursor: pointer;
+  border-radius: 5px;
+  display: grid;
+  position: relative;
 }
 
-.gallary-grid .image-container img{
-  width:100%;
-  height:100%;
+.gallary-grid .image-container img {
+  width: 100%;
+  height: 100%;
   object-fit: cover;
   transition: transform 0.3s ease;
 }
-.gallary-grid img:hover{
+.gallary-grid img:hover {
   transform: scale(1.05);
   transition: transform 0.3s ease;
 }
-.link{
+.link {
   display: inline-block;
   margin-top: 20px;
   padding: 10px 20px;
@@ -178,4 +183,69 @@ gap: 10px;
   color: white;
   text-decoration: none;
   border-radius: 5px;
+}
+.delete-button {
+  position: absolute;
+  display: none;
+  top: 5px;
+  right: 5px;
+  background-color: rgba(255, 0, 0, 0.7);
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px;
+  padding-bottom: 0;
+  font-size: 12px;
+  cursor: pointer;
+}
+.image-container:hover .delete-button {
+  display: block;
+}
+.delete-confirmation-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.delete-confirmation-modal .modal-content {
+  background-color: white;
+  padding: 20px;
+  border-radius: 5px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+.delete-confirmation-modal .modal-content p,
+h2 {
+  font-size: 16px;
+  font-weight: 300;
+  margin: 0;
+}
+.delete-confirmation-modal .modal-content h2 {
+  font-size: 18px;
+  font-weight: 500;
+}
+.delete-confirmation-modal .modal-content .button-container {
+  display: flex;
+  gap: 10px;
+}
+.delete-confirmation-modal .modal-content .button-container button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-weight: 300;
+}
+.delete-confirmation-modal .modal-content .button-container .cancel-button {
+  background-color: black;
+  color: white;
+}
+.delete-confirmation-modal .modal-content .button-container .confirm-button {
+  background-color: #ef4444;
 }
