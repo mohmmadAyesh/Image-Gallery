@@ -1,5 +1,10 @@
 const { Upload } = require("@aws-sdk/lib-storage");
-const { S3, S3Client, GetObjectCommand } = require("@aws-sdk/client-s3");
+const {
+  S3,
+  S3Client,
+  GetObjectCommand,
+  DeleteObjectCommand,
+} = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
 const createReadStream = require("fs").createReadStream;
 const uploadImageToS3 = async (file) => {
@@ -13,7 +18,6 @@ const uploadImageToS3 = async (file) => {
         accessKeyId: process.env.AWS_ACCESS_KEY_ID,
         secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
       },
-
       region: process.env.AWS_REGION,
     });
     console.log("s3 client created");
@@ -61,4 +65,29 @@ const createPresignedUrlWithClient = async ({ key }) => {
   });
   return getSignedUrl(s3, command);
 };
-module.exports = { uploadImageToS3, createPresignedUrlWithClient };
+const deleteUploadedImage = async ({ key }) => {
+  console.log("executing delete function for key", key);
+  if (!key) {
+    console.error("Key is required to delete an image");
+    return null;
+  }
+  const s3 = new S3Client({
+    bucketEndpoint: process.env.S3_BUCKET_NAME,
+    region: process.env.AWS_REGION,
+    credentials: {
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+    },
+  });
+  const command = new DeleteObjectCommand({
+    Bucket: `http://${process.env.S3_BUCKET_NAME}.s3.${process.env.AWS_REGION}.amazonaws.com`,
+    Key: key,
+  });
+  const response = await s3.send(command);
+  console.log("response from s3 after deletion is  ", response);
+};
+module.exports = {
+  uploadImageToS3,
+  createPresignedUrlWithClient,
+  deleteUploadedImage,
+};

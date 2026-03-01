@@ -1,8 +1,10 @@
 const {
   uploadImageToS3,
   createPresignedUrlWithClient,
+  deleteUploadedImage,
 } = require("../services/aws_functions");
 const { promisify } = require("util");
+const CustomError = require("../services/error-handler/CustomError");
 const unlinkAsync = promisify(require("fs").unlink);
 const uploadImage = async (req, res) => {
   try {
@@ -13,14 +15,36 @@ const uploadImage = async (req, res) => {
     const date = new Date();
     const upload_date = date.toISOString();
     const query =
-      "INSERT INTO images (file_name,upload_date,image_s3_url) VALUES ($1, $2, $3) RETURNING *";
+      "INSERT INTO images(file_name,upload_date,image_s3_url) VALUES ($1, $2, $3) RETURNING *";
     const values = [file.filename, upload_date, image_s3_url];
     const result = await req.pool.query(query, values);
     await unlinkAsync(req.file.path);
     res.status(201).json(result.rows[0]);
   } catch (error) {
     console.error("Error uploading image:", error);
-    res.status(500).json({ error: "Failed to upload image" });
+    deleteUploadedImage({ key: req.file.filename }).catch((deleteError) => {
+      console.error(
+        "Error deleting image from S3 after upload failure:",
+        deleteError,
+      );
+    });
+    console.log("original error message", error.message);
+    if (
+      error.message ===
+        "The AWS Access Key Id you provided does not exist in our records." ||
+      error.message ===
+        "The request signature we calculated does not match the signature you provided. Check your key and signing method."
+    ) {
+      error.message = "Invalid AWS credentials";
+    } else if (error.message.includes("The specified bucket does not exist")) {
+      error.message = "S3 bucket does not exist";
+    } else if (error.message.includes("getaddrinfo ENOTFOUND")) {
+      error.message = "Unable to connect to S3 endpoint";
+    } else {
+      error.message = "Failed to upload image";
+    }
+    console.log("error message", error.message);
+    res.status(500).json({ error: error.message });
   }
 };
 const getAllImages = async (req, res) => {
@@ -45,4 +69,17 @@ const getAllImages = async (req, res) => {
     res.status(500).json({ error: "Failed to fetch images" });
   }
 };
-module.exports = { uploadImage, getAllImages };
+const deleteImage = async (req, res) => {
+  try {
+    console.log("request body is", req.body);
+    const { file_name } = req.body;
+    await deleteUploadedImage({ key: file_name });
+    const query = "DELETE FROM images WHERE file_name = $1";
+    await req.pool.query(query, [file_name]);
+    res.status(200).json({ message: "Image deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting image:", error);
+    throw new CustomError("Failed to delete image", 500);
+  }
+};
+module.exports = { uploadImage, getAllImages, deleteImage };
