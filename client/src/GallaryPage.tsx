@@ -21,11 +21,13 @@ const GallaryPage = () => {
     return (
     <>
      {galleryItems && galleryItems.length > 0 && (
-        <div className="gallery">
+        <div className="gallary-grid">
           {galleryItems.map((image, index) => (
+            <div className="image-container">
             <img key={index} src={image.presigned_url} alt={`Gallery item ${index}`} className="gallery-image" />
+            </div>
           ))}
-        </div>
+          </div>
       )}
     </>
   )

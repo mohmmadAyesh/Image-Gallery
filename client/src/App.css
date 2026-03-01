@@ -134,3 +134,33 @@ gap: 10px;
   font-size: 14px;
   font-weight: 300;
 }
+.gallary-grid{
+  display:flex;
+  align-items: center;
+  flex-direction: column;
+}
+.gallary-grid{
+  display:grid;
+  padding:20px;
+  grid-gap: 2rem;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+}
+.gallary-grid  .image-container{
+  width:auto;
+  height:200px;
+  overflow:hidden;
+  cursor:pointer;
+  border-radius:5px;
+  display:grid;
+}
+
+.gallary-grid .image-container img{
+  width:100%;
+  height:100%;
+  object-fit: cover;
+  transition: transform 0.3s ease;
+}
+.gallary-grid img:hover{
+  transform: scale(1.05);
+  transition: transform 0.3s ease;
+}
