@@ -7,9 +7,8 @@ const bodyParser = require('body-parser');
 const app = express()
 const routes = require('./routers/routes');
 app.use(cors());
-app.use(bodyParser.json({limit: '5mb'}));
 app.use(bodyParser.urlencoded({
-    extended: false
+    extended: true
 }));
 app.use(PostgresSQL);
 app.use('/', routes);
