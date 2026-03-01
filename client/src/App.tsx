@@ -2,12 +2,9 @@ import './App.css'
 import { useState } from 'react';
 import { ImageUpload } from './ImageUpload';
 import {api} from './api/ApiConfig';
-import { useContext } from 'react';
-import { GalleryContext } from './Context';
 import { Link } from 'react-router';
 const MAX_FILE_SIZE  = 1000 * 1000 * 3;
 function App() {
-  const {setGallaryItems} = useContext(GalleryContext);
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
@@ -21,13 +18,6 @@ function App() {
         return;
       }
       setUploadedImage(e.target.files[0]);
-      console.log("printing file name to test if i send as a file",uploadedImage?.name)
-      const reader = new FileReader()
-      reader.onload = (event) => {
-        const newImage = event.target?.result as string;
-        setGallaryItems(prevItems => [...prevItems, {file_name: uploadedImage?.name || '', presigned_url: newImage}]);
-      }
-      reader.readAsDataURL(e.target.files[0])
     }
   }
   const handleSave = async (e: React.FormEvent) => {
