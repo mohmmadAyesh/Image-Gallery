@@ -56,7 +56,7 @@ export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, hand
             </div>
         </div>
         <div className="button-container">
-            <button type="submit" disabled={!uploadedImage || loading} className={`${(!uploadedImage || loading) ? 'gray-button' : 'green-button'}`}>
+            <button type="submit" disabled={!uploadedImage || loading || errorMessage} className={`${(!uploadedImage || loading) ? 'gray-button' : 'green-button'}`}>
                 { !loading ? "Save" : (
                     <>
                     <div className="loader"></div>
