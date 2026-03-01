@@ -93,11 +93,29 @@ export const ImageUpload = ({
         <div className="button-container">
           <button
             type="submit"
-            disabled={!uploadedImage || loading || errorMessage !== null}
+            disabled={!uploadedImage || loading}
             className={`${!uploadedImage || loading ? "gray-button" : "green-button"}`}
           >
             {!loading ? (
-              "Save"
+              errorMessage !== null ? (
+                <div className="retry-container">
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                  >
+                    <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 9M21 3v6h-6" />
+                  </svg>
+                  <span>Retry</span>
+                </div>
+              ) : (
+                "Save"
+              )
             ) : (
               <>
                 <div className="loader"></div>
