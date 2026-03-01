@@ -249,3 +249,9 @@ h2 {
 .delete-confirmation-modal .modal-content .button-container .confirm-button {
   background-color: #ef4444;
 }
+.retry-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+}

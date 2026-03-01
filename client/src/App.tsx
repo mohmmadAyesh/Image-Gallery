@@ -3,6 +3,7 @@ import { useState } from "react";
 import { ImageUpload } from "./ImageUpload";
 import { api } from "./api/ApiConfig";
 import { Link } from "react-router";
+import axios from "axios";
 const MAX_FILE_SIZE = 1000 * 1000 * 5;
 function App() {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
@@ -28,12 +29,30 @@ function App() {
     formData.append("file", uploadedImage as Blob);
     try {
       await api.post("/upload", formData, {
+        timeout: 30000,
         headers: {
           "Content-Type": "multipart/form-data",
         },
       });
       setSuccessMessage("Image uploaded successfully!");
-    } catch (error) {
+      setErrorMessage(null);
+    } catch (error: any) {
+      console.log("uploading encounter an error", error);
+      if (error.response && error.response.status !== 500) {
+        setErrorMessage(error.response.data.error);
+      } else if (error.message && error.message === "Network Error") {
+        setErrorMessage(
+          "Unable to reach the server. Please check your connection and try again.",
+        );
+      } else if (error.message && error.message.includes("timeout")) {
+        setErrorMessage(
+          "The request timed out. Please try again later. or check your network connection.",
+        );
+      } else {
+        setErrorMessage(
+          "Something went wrong while uploading the image. Please try again.",
+        );
+      }
       console.error("Error uploading image:", error);
     }
   };
