@@ -1,5 +1,5 @@
-import React from 'react'
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
+import Lightbox from './Lightbox';
 interface ImageUploadProps {
     handleImageChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     errorMessage: string | null;
@@ -10,6 +10,11 @@ interface ImageUploadProps {
 export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, handleSave, successMessage}: ImageUploadProps) => {
     const [showPreview, setShowPreview] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [ImageURL,setImageURL] = useState<string | null>(null);
+    useEffect(()=>{
+        const URLImage = uploadedImage ? URL.createObjectURL(uploadedImage) : null;
+        setImageURL(URLImage);
+    },[uploadedImage])
     return (
     <form onSubmit={async (e: React.FormEvent) => {
         
@@ -29,8 +34,8 @@ export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, hand
     <div className="image-uploader">
         <div className="image-description">
             <div className='image-container'>
-            { uploadedImage ? (
-                <img src={uploadedImage} alt="Uploaded" className="uploaded-image" />
+            { ImageURL ? (
+                <img src={ImageURL} alt="Uploaded" className="uploaded-image" />
             )
             :(
             <svg xmlns="http://www.w3.org/2000/svg" width="100" height="100" viewBox="0 0 100 100" fill="none">
@@ -41,7 +46,7 @@ export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, hand
             </svg>
             )
             }
-            { uploadedImage && <button className="preview-button" onClick={()=>setShowPreview(true)}>Preview</button>}
+            { uploadedImage && <button type="button"className="preview-button" onClick={()=>setShowPreview(true)}>Preview</button>}
             </div>
             
 
@@ -62,13 +67,8 @@ export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, hand
         </div>
         <p className="error-message">{errorMessage}</p>
         <p className="success-message">{successMessage}</p>
-        {showPreview && uploadedImage && ( 
-            <div className="lightbox"  onClick={()=>setShowPreview(false)}>
-        
-            <div className="lightbox-content">
-                <img src={uploadedImage} alt="Preview" className="lightbox-image" />
-            </div>
-        </div>
+        {showPreview && ImageURL && ( 
+            <Lightbox ImageURL={ImageURL} setShowPreview={setShowPreview} />
         )}
     </div>
     </form>

@@ -53,7 +53,7 @@ function App() {
      errorMessage={errorMessage} 
      successMessage={successMessage}
      uploadedImage={uploadedImage} handleSave={handleSave} />
-     <Link to="/gallary">Go to Gallary</Link>
+     <Link className="link" to="/gallary">Go to Gallary</Link>
      </>
   )
 }
