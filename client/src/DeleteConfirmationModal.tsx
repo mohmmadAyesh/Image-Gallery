@@ -1,4 +1,13 @@
-const DeleteConfirmationModal = ({ onClose, onDelete, loading_delete }) => {
+interface DeleteConfirmationModalProps {
+  onClose: () => void;
+  onDelete: () => void;
+  loading_delete: boolean;
+}
+const DeleteConfirmationModal = ({
+  onClose,
+  onDelete,
+  loading_delete,
+}: DeleteConfirmationModalProps) => {
   return (
     // design delete confirmation modal with a message and two buttons "Cancel" and "Delete"
     <div className="delete-confirmation-modal">
