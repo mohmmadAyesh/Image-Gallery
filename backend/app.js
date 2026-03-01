@@ -7,7 +7,6 @@ const bodyParser = require("body-parser");
 const app = express();
 const routes = require("./routers/routes");
 const messages = require("./services/error-handler");
-const e = require("express");
 app.use(cors());
 app.use(bodyParser.json());
 app.use(
