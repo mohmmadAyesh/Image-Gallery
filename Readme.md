@@ -6,3 +6,15 @@
 5. to create the postgresql table you can run `CREATE TABLE images (file_name VARCHAR(255) NOT NULL,upload_date TIMESTAMP NOT NULL,image_s3_url TEXT NOT NULL);`
 6. Run `npm run dev` inside client folder
 7. Run `npm start` inside backend folder
+
+## Screenshot of Working App
+Image Gallary Page A Responsive Grid of Images with lightbox appear when click on one of them
+![image](/Screenshots/Image%20Gallary.png)
+Image Upload Page
+![image](/Screenshots/Upload%20Page.png)
+File Size Validation 
+![image](/Screenshots/FileSize%20Validation.png)
+Lightbox Component
+![image](/Screenshots/Lightbox%20component.png)
+Success State when uploading the file to the bucket
+![image](/Screenshots/Success%20State.png)
