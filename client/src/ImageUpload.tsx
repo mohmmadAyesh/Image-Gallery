@@ -52,7 +52,7 @@ export const ImageUpload = ({handleImageChange, errorMessage,uploadedImage, hand
 
             <div className="info">
                 <h3>Please upload square image, size less than 5MB</h3>
-            <input type="file" name="image" accept="image/png, image/jpeg" onChange={handleImageChange}/>
+            <input type="file" name="image" accept="image/png, image/jpeg, image/gif, image/jpg" onChange={handleImageChange}/>
             </div>
         </div>
         <div className="button-container">
