@@ -10,6 +10,8 @@ function App() {
   const [successMessage, setSuccessMessage] = useState<string | null>(null);
  
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setErrorMessage(null);
+    setSuccessMessage(null);
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       console.log("file object",file);
