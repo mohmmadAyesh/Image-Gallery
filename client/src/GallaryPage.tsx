@@ -2,7 +2,9 @@ import { useEffect, useContext, useState } from "react";
 import { loadGalleryImages } from "./api/accessImage";
 import { GalleryContext } from "./Context";
 import Lightbox from "./Lightbox";
+import { api } from "./api/ApiConfig";
 import DeleteConfirmationModal from "./DeleteConfirmationModal";
+import toast from "react-hot-toast";
 const GallaryPage = () => {
   const { galleryItems, setGalleryItems } = useContext(GalleryContext) as {
     galleryItems: { file_name: string; presigned_url: string }[];
@@ -12,25 +14,40 @@ const GallaryPage = () => {
   };
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
-  const [previewImage, setPreviewImage] = useState<string | null>(null);
+  const [previewImage, setPreviewImage] = useState<{
+    file_name: string;
+    presigned_url: string;
+  } | null>(null);
+  const [currentImage, setCurrentImage] = useState<{
+    file_name: string;
+    presigned_url: string;
+  } | null>(null);
+  const [loadingDelete, setLoadingDelete] = useState(false);
   const handleDelete = async (file_name: string) => {
     try {
-      setOpenDeleteModal(false);
+      setLoadingDelete(true);
+      await api.delete("/delete", { data: { file_name } });
+      await fetchGalleryImages();
+      toast.success("Image deleted successfully!");
     } catch (error) {
       console.error("Error deleting image:", error);
+      toast.error("Failed to delete image.");
+    } finally {
+      setOpenDeleteModal(false);
+      setLoadingDelete(false);
+    }
+  };
+  const fetchGalleryImages = async () => {
+    try {
+      const images = await loadGalleryImages();
+      console.log("Fetched gallery images:", images);
+      setGalleryItems(images);
+    } catch (error) {
+      console.error("Error fetching gallery images:", error);
     }
   };
   useEffect(() => {
     const fetch = setTimeout(() => {
-      const fetchGalleryImages = async () => {
-        try {
-          const images = await loadGalleryImages();
-          console.log("Fetched gallery images:", images);
-          setGalleryItems(images);
-        } catch (error) {
-          console.error("Error fetching gallery images:", error);
-        }
-      };
       fetchGalleryImages();
     });
     return () => clearTimeout(fetch);
@@ -47,13 +64,19 @@ const GallaryPage = () => {
                 alt={`Gallery item ${index}`}
                 className="gallery-image"
                 onClick={() => {
-                  setPreviewImage(image.presigned_url);
+                  setPreviewImage({
+                    file_name: image.file_name,
+                    presigned_url: image.presigned_url,
+                  });
                   setShowPreview(true);
                 }}
               />
               <button
                 className="delete-button"
-                onClick={() => setOpenDeleteModal(true)}
+                onClick={() => {
+                  setCurrentImage(image);
+                  setOpenDeleteModal(true);
+                }}
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -72,12 +95,16 @@ const GallaryPage = () => {
         </div>
       )}
       {showPreview && previewImage && (
-        <Lightbox ImageURL={previewImage} setShowPreview={setShowPreview} />
+        <Lightbox
+          ImageURL={previewImage.presigned_url}
+          setShowPreview={setShowPreview}
+        />
       )}
       {openDeleteModal && (
         <DeleteConfirmationModal
           onClose={() => setOpenDeleteModal(false)}
-          onDelete={() => {}}
+          onDelete={() => handleDelete(currentImage?.file_name || "")}
+          loading_delete={loadingDelete}
         />
       )}
     </>

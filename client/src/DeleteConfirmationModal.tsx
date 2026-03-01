@@ -1,4 +1,4 @@
-const DeleteConfirmationModal = ({ onClose, onDelete }) => {
+const DeleteConfirmationModal = ({ onClose, onDelete, loading_delete }) => {
   return (
     // design delete confirmation modal with a message and two buttons "Cancel" and "Delete"
     <div className="delete-confirmation-modal">
@@ -9,8 +9,19 @@ const DeleteConfirmationModal = ({ onClose, onDelete }) => {
           <button className="cancel-button" onClick={() => onClose()}>
             Cancel
           </button>
-          <button className="confirm-button" onClick={() => onDelete()}>
-            Delete
+          <button
+            className="confirm-button"
+            onClick={() => onDelete()}
+            disabled={loading_delete}
+          >
+            {loading_delete ? (
+              <>
+                <div className="loader"></div>
+                <span>Deleting...</span>
+              </>
+            ) : (
+              "Delete"
+            )}
           </button>
         </div>
       </div>
