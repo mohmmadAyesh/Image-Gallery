@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { ImageUpload } from './ImageUpload';
 import {api} from './api/ApiConfig';
 import { Link } from 'react-router';
-const MAX_FILE_SIZE  = 1000 * 1000 * 3;
+const MAX_FILE_SIZE  = 1000 * 1000 * 5;
 function App() {
   const [uploadedImage, setUploadedImage] = useState<File | null>(null);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
